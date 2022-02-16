@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using DataManipulation;
+using System.Reflection;
 
 namespace ArsNova
 {
@@ -32,6 +34,8 @@ namespace ArsNova
             {
                 options.UseSqlServer(Configuration.GetConnectionString("MssqlConnection"));
             });
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             //services.AddDbContext<ArsNovaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")));
             services.AddControllers();
             services.AddSwaggerGen(c =>
