@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ArsNova.Model.Artist
 {
-    public class UpdateArtistDto: CreateArtistDto
+    public class UpdateArtistDto: BaseArtistDto
     {
         IList<ArtworkDto> Artworks { get; set; }
     }

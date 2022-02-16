@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataManipulation
 {
-    interface IGenericRepository<T> where T : class
+    public interface IGenericRepository<T> where T : class
     {
         List<T> GetAll(Expression<Func<T, bool>> expression = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,

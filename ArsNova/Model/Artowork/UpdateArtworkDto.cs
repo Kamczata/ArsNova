@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ArsNova
 {
-    public class UpdateArtworkDto: CreateArtworkDto
+    public class UpdateArtworkDto: BaseArtworkDto
     {
         public ArtistDto Artist { get; set; }
     }

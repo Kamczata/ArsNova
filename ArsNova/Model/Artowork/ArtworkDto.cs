@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ArsNova
 {
-    public class ArtworkDto: CreateArtworkDto
+    public class ArtworkDto: BaseArtworkDto
     {
         [Required]
         public int Id { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArsNova.Model.Artist
 {
-    public class ArtistDto: CreateArtistDto
+    public class ArtistDto: BaseArtistDto
     {
         [Required]
         public int Id { get; set; }
