@@ -37,7 +37,9 @@ namespace ArsNova
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             //services.AddDbContext<ArsNovaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")));
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ArsNova", Version = "v1" });

@@ -4,14 +4,16 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Data.Migrations
 {
     [DbContext(typeof(ArsNovaDbContext))]
-    partial class ArsNovaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220218151548_AddedLocationClass")]
+    partial class AddedLocationClass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,11 +34,8 @@ namespace Data.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImgSrc")
+                    b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("LocationId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -48,8 +47,6 @@ namespace Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LocationId");
 
                     b.HasIndex("ResumeId");
 
@@ -128,24 +125,6 @@ namespace Data.Migrations
                     b.HasIndex("ArtworkId");
 
                     b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("Domain.Location", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Location");
                 });
 
             modelBuilder.Entity("Domain.Milestone", b =>
@@ -239,15 +218,9 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Domain.Artist", b =>
                 {
-                    b.HasOne("Domain.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId");
-
                     b.HasOne("Domain.Resume", "Resume")
                         .WithMany()
                         .HasForeignKey("ResumeId");
-
-                    b.Navigation("Location");
 
                     b.Navigation("Resume");
                 });

@@ -4,14 +4,16 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Data.Migrations
 {
     [DbContext(typeof(ArsNovaDbContext))]
-    partial class ArsNovaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220218151620_AddedLocationClass2")]
+    partial class AddedLocationClass2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,9 +32,6 @@ namespace Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImgSrc")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("LocationId")

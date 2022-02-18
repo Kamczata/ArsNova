@@ -16,6 +16,7 @@ namespace ArsNova.Model.Artist
         public string Description { get; set; }
         [Required]
         public string Location { get; set; }
+        public List<Category> Categories { get; set; }
         public Resume Resume { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
