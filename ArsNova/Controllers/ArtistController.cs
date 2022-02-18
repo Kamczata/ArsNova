@@ -31,7 +31,7 @@ namespace ArsNova.Controllers
             var artists = _uow.Artists.GetAll();
             var artistsDto = _mapper.Map<List<ArtistDto>>(artists);
 
-            return Ok(artists);
+            return Ok(artistsDto);
         }
 
         [HttpGet("{id}")]
