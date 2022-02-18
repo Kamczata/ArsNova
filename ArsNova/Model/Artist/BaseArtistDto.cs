@@ -15,7 +15,7 @@ namespace ArsNova.Model.Artist
         [StringLength(maximumLength: 1000, ErrorMessage = "Description is too long!")]
         public string Description { get; set; }
         [Required]
-        public string Location { get; set; }
+        public Location Location { get; set; }
         public List<Category> Categories { get; set; }
         public Resume Resume { get; set; }
         public string Phone { get; set; }

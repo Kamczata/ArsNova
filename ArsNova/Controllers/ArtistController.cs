@@ -1,6 +1,7 @@
 ﻿using ArsNova.Model.Artist;
 using AutoMapper;
 using DataManipulation;
+using Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -61,6 +62,16 @@ namespace ArsNova.Controllers
             var artists = _uow.Artists.GetAll(x => x.Location.Equals(location));
             var artistsDto = _mapper.Map<List<ArtistDto>>(artists);
             return Ok(artistsDto);
+        }
+
+        [HttpPost]
+        [ActionName("Create")]
+        public IActionResult CreateArtist(CreateArtistDto artistDto)
+        {
+            var artist = _mapper.Map<Artist>(artistDto);
+            _uow.Artists.Add(artist);
+            _uow.Save();
+            return NoContent();
         }
     }
 }
