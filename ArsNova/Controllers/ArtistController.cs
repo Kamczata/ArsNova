@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ArsNova.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ArtistController : ControllerBase
     {
@@ -44,17 +44,18 @@ namespace ArsNova.Controllers
             return Ok(artistDto);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("Category/{id}"), ]
         [ActionName("Category")]
         public IActionResult GetArtistFromCategory(int categoryId)
         {
             var category = _uow.Categories.Get(x => x.Id == categoryId);
-            var artists = _uow.Artists.GetAll(x => x.Categories.Contains(category));
+            var categoryArtist = _uow.CategoriesArtist.GetAll(x => x.Category == category);
+            var artists = _uow.Artists.GetAll(x => x.CategoriesArtist == categoryArtist);
             var artistsDto = _mapper.Map<List<ArtistDto>>(artists);
             return Ok(artistsDto);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("Location/{id}")]
         [ActionName("Location")]
         public IActionResult GetArtistFromLocation(int id)
         {

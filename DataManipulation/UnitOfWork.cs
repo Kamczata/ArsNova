@@ -16,6 +16,9 @@ namespace DataManipulation
         public IGenericRepository<Category> Categories => new GenericRepository<Category>(_context);
         public IGenericRepository<Technique> Techniques => new GenericRepository<Technique>(_context);
         public IGenericRepository<Location> Locations => new GenericRepository<Location>(_context);
+        public IGenericRepository<CategoryArtist> CategoriesArtist => new GenericRepository<CategoryArtist>(_context);
+        public IGenericRepository<CategoryArtwork> CategoriesArtwork => new GenericRepository<CategoryArtwork>(_context);
+        public IGenericRepository<TechniqueArtwork> TechniquesArtwork => new GenericRepository<TechniqueArtwork>(_context);
 
         public UnitOfWork(ArsNovaDbContext context)
         {

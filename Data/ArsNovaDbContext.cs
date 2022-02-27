@@ -11,7 +11,10 @@ namespace Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Technique> Techniques { get; set; }
         public DbSet<Artwork> Artworks { get; set; }
-        public DbSet<Hashtag> Tags { get; set; }
+
+        public DbSet<CategoryArtist> CategoriesArtists { get; set; }
+        public DbSet<CategoryArtwork> CategoriesArtwork { get; set; }
+        public DbSet<TechniqueArtwork> TechniquesArtwork { get; set; }
 
         public ArsNovaDbContext()
         {
@@ -34,7 +37,9 @@ namespace Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<CategoryArtist>().HasKey(sc => new { sc.ArtistId, sc.CategoryId });
+            modelBuilder.Entity<CategoryArtwork>().HasKey(sc => new { sc.ArtworkId, sc.CategoryId });
+            modelBuilder.Entity<TechniqueArtwork>().HasKey(sc => new { sc.ArtworkId, sc.TechniqueId });
 
         }
     }

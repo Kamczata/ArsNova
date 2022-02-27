@@ -16,7 +16,8 @@ namespace Domain
         public Resume Resume { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public List<Category> Categories { get; set; }
+        //public List<Category> Categories { get; set; }
+        public IList<CategoryArtist> CategoriesArtist { get; set; }
         public List<SocialMedia> Media { get; set; }
         public List<Artwork> Artworks { get; set; }
     }

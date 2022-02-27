@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ArsNovaDbContext))]
-    [Migration("20220218151548_AddedLocationClass")]
-    partial class AddedLocationClass
+    [Migration("20220227222236_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,8 +34,11 @@ namespace Data.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Location")
+                    b.Property<string>("ImgSrc")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("LocationId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -47,6 +50,8 @@ namespace Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
 
                     b.HasIndex("ResumeId");
 
@@ -63,9 +68,6 @@ namespace Data.Migrations
                     b.Property<int?>("ArtistId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -79,8 +81,6 @@ namespace Data.Migrations
 
                     b.HasIndex("ArtistId");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Artworks");
                 });
 
@@ -91,9 +91,6 @@ namespace Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ArtistId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -102,9 +99,43 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArtistId");
-
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Domain.CategoryArtist", b =>
+                {
+                    b.Property<int>("ArtistId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArtistId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("CategoriesArtists");
+                });
+
+            modelBuilder.Entity("Domain.CategoryArtwork", b =>
+                {
+                    b.Property<int>("ArtworkId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArtworkId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("CategoriesArtwork");
                 });
 
             modelBuilder.Entity("Domain.Hashtag", b =>
@@ -124,7 +155,25 @@ namespace Data.Migrations
 
                     b.HasIndex("ArtworkId");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Hashtag");
+                });
+
+            modelBuilder.Entity("Domain.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Location");
                 });
 
             modelBuilder.Entity("Domain.Milestone", b =>
@@ -195,9 +244,6 @@ namespace Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ArtworkId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
@@ -209,18 +255,40 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArtworkId");
-
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Techniques");
                 });
 
+            modelBuilder.Entity("Domain.TechniqueArtwork", b =>
+                {
+                    b.Property<int>("ArtworkId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TechniqueId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArtworkId", "TechniqueId");
+
+                    b.HasIndex("TechniqueId");
+
+                    b.ToTable("TechniquesArtwork");
+                });
+
             modelBuilder.Entity("Domain.Artist", b =>
                 {
+                    b.HasOne("Domain.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId");
+
                     b.HasOne("Domain.Resume", "Resume")
                         .WithMany()
                         .HasForeignKey("ResumeId");
+
+                    b.Navigation("Location");
 
                     b.Navigation("Resume");
                 });
@@ -231,26 +299,51 @@ namespace Data.Migrations
                         .WithMany("Artworks")
                         .HasForeignKey("ArtistId");
 
+                    b.Navigation("Artist");
+                });
+
+            modelBuilder.Entity("Domain.CategoryArtist", b =>
+                {
+                    b.HasOne("Domain.Artist", "Artist")
+                        .WithMany("CategoriesArtist")
+                        .HasForeignKey("ArtistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Domain.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
+                        .WithMany("CategoriesArtist")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Artist");
 
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Domain.Category", b =>
+            modelBuilder.Entity("Domain.CategoryArtwork", b =>
                 {
-                    b.HasOne("Domain.Artist", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("ArtistId");
+                    b.HasOne("Domain.Artwork", "Artwork")
+                        .WithMany("CategoriesArtwork")
+                        .HasForeignKey("ArtworkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Category", "Category")
+                        .WithMany("CategoriesArtwork")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Artwork");
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Domain.Hashtag", b =>
                 {
                     b.HasOne("Domain.Artwork", null)
-                        .WithMany("Tags")
+                        .WithMany("Hashtags")
                         .HasForeignKey("ArtworkId");
                 });
 
@@ -270,10 +363,6 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Domain.Technique", b =>
                 {
-                    b.HasOne("Domain.Artwork", null)
-                        .WithMany("Techniques")
-                        .HasForeignKey("ArtworkId");
-
                     b.HasOne("Domain.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId");
@@ -281,25 +370,58 @@ namespace Data.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("Domain.TechniqueArtwork", b =>
+                {
+                    b.HasOne("Domain.Artwork", "Artwork")
+                        .WithMany("TechniquesArtwork")
+                        .HasForeignKey("ArtworkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Technique", "Technique")
+                        .WithMany("TechniquesArtwork")
+                        .HasForeignKey("TechniqueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Artwork");
+
+                    b.Navigation("Technique");
+                });
+
             modelBuilder.Entity("Domain.Artist", b =>
                 {
                     b.Navigation("Artworks");
 
-                    b.Navigation("Categories");
+                    b.Navigation("CategoriesArtist");
 
                     b.Navigation("Media");
                 });
 
             modelBuilder.Entity("Domain.Artwork", b =>
                 {
-                    b.Navigation("Tags");
+                    b.Navigation("CategoriesArtwork");
 
-                    b.Navigation("Techniques");
+                    b.Navigation("Hashtags");
+
+                    b.Navigation("TechniquesArtwork");
+                });
+
+            modelBuilder.Entity("Domain.Category", b =>
+                {
+                    b.Navigation("CategoriesArtist");
+
+                    b.Navigation("CategoriesArtwork");
                 });
 
             modelBuilder.Entity("Domain.Resume", b =>
                 {
                     b.Navigation("Milestones");
+                });
+
+            modelBuilder.Entity("Domain.Technique", b =>
+                {
+                    b.Navigation("TechniquesArtwork");
                 });
 #pragma warning restore 612, 618
         }
