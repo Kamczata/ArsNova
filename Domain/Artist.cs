@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,10 @@ namespace Domain
         public int Id { get; set; }
         public string Name { get; set; }
         public Location Location { get; set; }
+
+        [ForeignKey(nameof(Location))]
+        public int LocationId { get; set; }
+
         public string Description { get; set; }
         public string ImgSrc { get; set; }
         public Resume Resume { get; set; }

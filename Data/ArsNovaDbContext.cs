@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using Data.Configurations;
+using Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -40,6 +41,19 @@ namespace Data
             modelBuilder.Entity<CategoryArtist>().HasKey(sc => new { sc.ArtistId, sc.CategoryId });
             modelBuilder.Entity<CategoryArtwork>().HasKey(sc => new { sc.ArtworkId, sc.CategoryId });
             modelBuilder.Entity<TechniqueArtwork>().HasKey(sc => new { sc.ArtworkId, sc.TechniqueId });
+            
+            base.OnModelCreating(modelBuilder);
+
+
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new TechniqueConfiguration());
+            modelBuilder.ApplyConfiguration(new LocationConfiguration());
+
+            modelBuilder.ApplyConfiguration(new ArtistConfiguration());
+            modelBuilder.ApplyConfiguration(new ArtworkConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryArtworkConfiguration());
+            modelBuilder.ApplyConfiguration(new TechniqueArtworkConfiguration());
+
 
         }
     }
