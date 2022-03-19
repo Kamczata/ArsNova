@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using DataManipulation.Configuration.Paging;
 
 namespace DataManipulation
 {
@@ -11,7 +12,7 @@ namespace DataManipulation
     {
         List<T> GetAll(Expression<Func<T, bool>> expression = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            List<string> includes = null);
+            List<string> includes = null, PagingOptions pagingOptions = null);
 
         T Get(Expression<Func<T, bool>> expression = null,
             List<string> includes = null);

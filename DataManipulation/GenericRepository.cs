@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using DataManipulation.Configuration.Paging;
 
 namespace DataManipulation
 {
@@ -33,8 +34,9 @@ namespace DataManipulation
             return query.AsNoTracking().FirstOrDefault(expression);
         }
 
-        public List<T> GetAll(Expression<Func<T, bool>> expression = null, 
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, List<string> includes = null)
+        public List<T> GetAll(Expression<Func<T, bool>> expression = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, List<string> includes = null,
+            PagingOptions pagingOptions = null)
         {
 
             IQueryable<T> query = _dbSet;
@@ -54,6 +56,12 @@ namespace DataManipulation
             if (orderBy != null)
             {
                 query = orderBy(query);
+            }
+
+            if (pagingOptions != null)
+            {
+                query = query.Skip((pagingOptions.PageNumber - 1) * pagingOptions.PageSize)
+                    .Take(pagingOptions.PageSize);
             }
             
             return query.AsNoTracking().ToList();

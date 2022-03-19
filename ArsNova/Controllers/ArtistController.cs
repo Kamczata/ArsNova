@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataManipulation.Configuration.Paging;
 
 namespace ArsNova.Controllers
 {
@@ -26,9 +27,9 @@ namespace ArsNova.Controllers
 
         [HttpGet]
         [ActionName("All")]
-        public IActionResult GetAllArtists()
+        public IActionResult GetAllArtists([FromQuery] PagingOptions options)
         {
-            var artists = _uow.Artists.GetAll();
+            var artists = _uow.Artists.GetAll(pagingOptions: options);
             var artistsDto = _mapper.Map<List<ArtistDto>>(artists);
 
             return Ok(artistsDto);

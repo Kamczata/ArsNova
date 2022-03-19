@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ArsNova.Model.Artowork;
+using DataManipulation.Configuration.Paging;
 
 namespace ArsNova.Controllers
 {
@@ -24,9 +26,9 @@ namespace ArsNova.Controllers
 
         [HttpGet]
         [ActionName("All")]
-        public IActionResult GetAllArtworks()
+        public IActionResult GetAllArtworks([FromQuery] PagingOptions options)
         {
-            var artworks = _uow.Artworks.GetAll();
+            var artworks = _uow.Artworks.GetAll(pagingOptions: options);
             var artworksDto = _mapper.Map<List<ArtworkDto>>(artworks);
 
             return Ok(artworksDto);
