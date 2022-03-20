@@ -28,7 +28,7 @@ namespace ArsNova.Controllers
         [ActionName("All")]
         public IActionResult GetAllArtworks([FromQuery] PagingOptions options)
         {
-            var artworks = _uow.Artworks.GetAll(pagingOptions: options);
+            var artworks = _uow.Artworks.GetAll(null, null, new List<string>() {"Artist", "CategoriesArtwork", "TechniquesArtwork"}, pagingOptions: options);
             var artworksDto = _mapper.Map<List<ArtworkDto>>(artworks);
 
             return Ok(artworksDto);
@@ -38,7 +38,7 @@ namespace ArsNova.Controllers
         [ActionName("Artwork")]
         public IActionResult GetArtwork(int id)
         {
-            var artwork = _uow.Artworks.Get(x => x.Id == id);
+            var artwork = _uow.Artworks.Get(x => x.Id == id, new List<string>() { "Artist", "CategoriesArtwork", "TechniquesArtwork" });
             var artworkDto = _mapper.Map<ArtworkDto>(artwork);
 
             return Ok(artworkDto);

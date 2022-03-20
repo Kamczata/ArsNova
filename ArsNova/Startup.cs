@@ -38,7 +38,10 @@ namespace ArsNova
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             //services.AddDbContext<ArsNovaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")));
             services.AddControllers()
-                .AddNewtonsoftJson();
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                });
             
             services.AddSwaggerGen(c =>
             {

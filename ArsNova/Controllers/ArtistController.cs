@@ -29,7 +29,7 @@ namespace ArsNova.Controllers
         [ActionName("All")]
         public IActionResult GetAllArtists([FromQuery] PagingOptions options)
         {
-            var artists = _uow.Artists.GetAll(pagingOptions: options);
+            var artists = _uow.Artists.GetAll(null, null, new List<string>() {"Location"}, pagingOptions: options);
             var artistsDto = _mapper.Map<List<ArtistDto>>(artists);
 
             return Ok(artistsDto);
@@ -39,7 +39,7 @@ namespace ArsNova.Controllers
         [ActionName("Artist")]
         public IActionResult GetArtist(int id)
         {
-            var artist = _uow.Artists.Get(x => x.Id == id);
+            var artist = _uow.Artists.Get(x => x.Id == id, new List<string>() { "Location" });
             var artistDto = _mapper.Map<ArtistDto>(artist);
 
             return Ok(artistDto);
@@ -47,21 +47,21 @@ namespace ArsNova.Controllers
 
         [HttpGet("Category/{id}"), ]
         [ActionName("Category")]
-        public IActionResult GetArtistFromCategory(int categoryId)
+        public IActionResult GetArtistFromCategory(int categoryId, [FromQuery] PagingOptions options)
         {
             var category = _uow.Categories.Get(x => x.Id == categoryId);
             var categoryArtist = _uow.CategoriesArtist.GetAll(x => x.Category == category);
-            var artists = _uow.Artists.GetAll(x => x.CategoriesArtist == categoryArtist);
+            var artists = _uow.Artists.GetAll(x => x.CategoriesArtist == categoryArtist, null, new List<string>() { "Location" }, pagingOptions: options);
             var artistsDto = _mapper.Map<List<ArtistDto>>(artists);
             return Ok(artistsDto);
         }
 
         [HttpGet("Location/{id}")]
         [ActionName("Location")]
-        public IActionResult GetArtistFromLocation(int id)
+        public IActionResult GetArtistFromLocation(int id, [FromQuery] PagingOptions options)
         {
             var location = _uow.Locations.Get(x => x.Id == id);
-            var artists = _uow.Artists.GetAll(x => x.Location.Equals(location));
+            var artists = _uow.Artists.GetAll(x => x.Location.Equals(location), null, new List<string>() { "Location" }, pagingOptions: options);
             var artistsDto = _mapper.Map<List<ArtistDto>>(artists);
             return Ok(artistsDto);
         }
