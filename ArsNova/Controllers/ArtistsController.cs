@@ -45,13 +45,13 @@ namespace ArsNova.Controllers
             return Ok(artistDto);
         }
 
-        [HttpGet("Category/{id}"), ]
+        [HttpGet("Category/{id}")]
         [ActionName("Category")]
-        public IActionResult GetArtistFromCategory(int categoryId, [FromQuery] PagingOptions options)
+        public IActionResult GetArtistFromCategory(int id, [FromQuery] PagingOptions options)
         {
-            var category = _uow.Categories.Get(x => x.Id == categoryId);
-            var categoryArtist = _uow.CategoriesArtist.GetAll(x => x.Category == category);
-            var artists = _uow.Artists.GetAll(x => x.CategoriesArtist == categoryArtist, null, new List<string>() { "Location" }, pagingOptions: options);
+            var category = _uow.Categories.Get(x => x.Id == id);
+            var artistsIds = _uow.CategoriesArtist.GetAll(x => x.CategoryId == id).Select(y => y.ArtistId);
+            var artists = _uow.Artists.GetAll(x => artistsIds.Contains(x.Id), null, new List<string>() { "Location" }, pagingOptions: options);
             var artistsDto = _mapper.Map<List<ArtistDto>>(artists);
             return Ok(artistsDto);
         }

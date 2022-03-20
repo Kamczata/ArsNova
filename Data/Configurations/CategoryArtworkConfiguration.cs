@@ -14,7 +14,7 @@ namespace Data.Configurations
         public void Configure(EntityTypeBuilder<CategoryArtwork> builder)
         {
             builder.HasData(
-                new CategoryArtwork { Id = 1, ArtworkId = 1, CategoryId=1 },
+                new CategoryArtwork { Id = 1, ArtworkId = 1, CategoryId = 1 },
                 new CategoryArtwork { Id = 2, ArtworkId = 2, CategoryId = 1 },
                 new CategoryArtwork { Id = 3, ArtworkId = 3, CategoryId = 2 },
                 new CategoryArtwork { Id = 4, ArtworkId = 4, CategoryId = 2 },

@@ -14,7 +14,7 @@ namespace ArsNova.Model.Artowork
         [StringLength(maximumLength: 200, ErrorMessage = "Description is too long")]
         public string Description { get; set; }
         [Required]
-        public Category Category { get; set; }
+        public List<Category> Categories { get; set; }
         [Required]
         public List<Technique> Techniques { get; set; }
         public List<Hashtag> Tags { get; set; }

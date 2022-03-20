@@ -20,6 +20,8 @@ namespace Domain
         public IList<CategoryArtwork> CategoriesArtwork { get; set; }
         public IList<TechniqueArtwork> TechniquesArtwork { get; set; }
         public List<Hashtag> Hashtags { get; set; }
+        [NotMapped]
+        public List<Category> Categories { get; set; } = new List<Category>();
 
         //public List<Technique> Techniques { get; set; }
 
