@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DataManipulation;
 using System.Reflection;
+using Microsoft.Net.Http.Headers;
 
 namespace ArsNova
 {
@@ -37,6 +38,7 @@ namespace ArsNova
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             //services.AddDbContext<ArsNovaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")));
+            services.AddCors();
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 {
@@ -62,6 +64,13 @@ namespace ArsNova
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(options => options
+                .WithOrigins(new[] { "http://localhost:3000/"})
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+                );
 
             app.UseAuthorization();
 

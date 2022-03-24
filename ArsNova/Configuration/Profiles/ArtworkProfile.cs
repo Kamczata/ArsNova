@@ -13,7 +13,10 @@ namespace ArsNova.Configuration.Profiles
     {
         public ArtworkProfile()
         {
-            CreateMap<Artwork, ArtworkDto>().ForMember(x => x.Techniques, opt => opt.MapFrom(y => y.TechniquesArtwork.Select(z => z.Technique).ToList())).ReverseMap();
+            CreateMap<Artwork, ArtworkDto>()
+                .ForMember(x => x.Techniques, opt => opt
+                .MapFrom(y => y.TechniquesArtwork.Select(z => z.Technique).ToList()))
+                .ReverseMap();
             CreateMap<Artwork, CreateArtworkDto>().ReverseMap();
             CreateMap<Artwork, UpdateArtworkDto>().ReverseMap();
         }

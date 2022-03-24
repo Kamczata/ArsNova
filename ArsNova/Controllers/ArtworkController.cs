@@ -29,7 +29,7 @@ namespace ArsNova.Controllers
         [ActionName("All")]
         public IActionResult GetAllArtworks([FromQuery] PagingOptions options)
         {
-            var artworks = _uow.Artworks.GetAll(null, null, new List<string>() { "Artist", "TechniquesArtwork" }, pagingOptions: options);
+            var artworks = _uow.Artworks.GetAll(null, null, new List<string>() { "Artist", "Category", "TechniquesArtwork" }, pagingOptions: options);
             var artworksDto = _mapper.Map<List<ArtworkDto>>(artworks);
 
             return Ok(artworksDto);
@@ -39,16 +39,8 @@ namespace ArsNova.Controllers
         [ActionName("Artwork")]
         public IActionResult GetArtwork(int id)
         {
-            var artwork = _uow.Artworks.Get(x => x.Id == id, new List<string>() { "Artist", "TechniquesArtwork" });
-            /*var categoriesIds = _uow.CategoriesArtwork.GetAll(x => x.ArtworkId == id).Select(y => y.CategoryId);
-            var artworkCategories = _uow.Categories.GetAll(x => categoriesIds.Contains(x.Id));*/
-
-            /*var techniquesIds = artwork.TechniquesArtwork.Select(x => x.TechniqueId).ToList();
-            var artworkTechniques = _uow.Techniques.GetAll(x => techniquesIds.Contains(x.Id));*/
-
+            var artwork = _uow.Artworks.Get(x => x.Id == id, new List<string>() { "Artist", "Category", "TechniquesArtwork" });
             var artworkDto = _mapper.Map<ArtworkDto>(artwork);
-            //artworkDto.Categories = artworkCategories;
-            //artworkDto.Techniques = artworkTechniques;
 
             return Ok(artworkDto);
         }
