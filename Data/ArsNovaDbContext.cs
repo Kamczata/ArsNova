@@ -7,14 +7,12 @@ namespace Data
 {
     public class ArsNovaDbContext : DbContext
     {
-        private const string ConnectionString = "Data Source=localhost;Database=ArsNova;Integrated Security=true";
+        private const string ConnectionString = "Data Source=localhost;Database=ArsNovaNew;Integrated Security=true";
         public DbSet<Artist> Artists { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Technique> Techniques { get; set; }
         public DbSet<Artwork> Artworks { get; set; }
-
         public DbSet<CategoryArtist> CategoriesArtists { get; set; }
-        public DbSet<CategoryArtwork> CategoriesArtwork { get; set; }
         public DbSet<TechniqueArtwork> TechniquesArtwork { get; set; }
 
         public ArsNovaDbContext()
@@ -39,9 +37,12 @@ namespace Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CategoryArtist>().HasKey(sc => new { sc.ArtistId, sc.CategoryId });
-            modelBuilder.Entity<CategoryArtwork>().HasKey(sc => new { sc.ArtworkId, sc.CategoryId });
             modelBuilder.Entity<TechniqueArtwork>().HasKey(sc => new { sc.ArtworkId, sc.TechniqueId });
-            
+                
+            modelBuilder.Entity<TechniqueArtwork>().Navigation(x => x.Technique).AutoInclude();
+
+
+
             base.OnModelCreating(modelBuilder);
 
 
@@ -51,7 +52,6 @@ namespace Data
 
             modelBuilder.ApplyConfiguration(new ArtistConfiguration());
             modelBuilder.ApplyConfiguration(new ArtworkConfiguration());
-            modelBuilder.ApplyConfiguration(new CategoryArtworkConfiguration());
             modelBuilder.ApplyConfiguration(new TechniqueArtworkConfiguration());
 
 

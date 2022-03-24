@@ -10,7 +10,7 @@ namespace DataManipulation
         IGenericRepository<Technique> Techniques { get; }
         IGenericRepository<Location> Locations { get; }
         IGenericRepository<CategoryArtist> CategoriesArtist { get; }
-        IGenericRepository<CategoryArtwork> CategoriesArtwork { get; }
+        //IGenericRepository<CategoryArtwork> CategoriesArtwork { get; }
         IGenericRepository<TechniqueArtwork> TechniquesArtwork { get; }
 
         void Save();

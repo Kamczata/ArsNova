@@ -17,11 +17,11 @@ namespace Domain
         public string Name { get; set; }
         public string ImgSource { get; set; }
         public string Description { get; set; }
-        public IList<CategoryArtwork> CategoriesArtwork { get; set; }
+        public Category Category { get; set; }
+        [ForeignKey(nameof(Category))]
+        public int CategoryId { get; set; }
         public IList<TechniqueArtwork> TechniquesArtwork { get; set; }
         public List<Hashtag> Hashtags { get; set; }
-        [NotMapped]
-        public List<Category> Categories { get; set; } = new List<Category>();
 
         //public List<Technique> Techniques { get; set; }
 
