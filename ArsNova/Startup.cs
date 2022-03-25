@@ -35,10 +35,16 @@ namespace ArsNova
             {
                 options.UseSqlServer(Configuration.GetConnectionString("MssqlConnection"));
             });
+            services.AddCors(o => o.AddDefaultPolicy( builder =>
+            {
+                builder.WithOrigins("http://localhost:3000")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             //services.AddDbContext<ArsNovaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")));
-            services.AddCors();
+            
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 {
@@ -65,12 +71,14 @@ namespace ArsNova
 
             app.UseRouting();
 
-            app.UseCors(options => options
-                .WithOrigins(new[] { "http://localhost:3000/"})
+            /*app.UseCors(options => options
+                .WithOrigins("http://localhost:5000/")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials()
                 );
+*/
+            app.UseCors();
 
             app.UseAuthorization();
 
