@@ -51,14 +51,8 @@ namespace ArsNova.Controllers
         {
             
             var category = _uow.Categories.Get(x => x.Id == id);
-            //var artworksIds = _uow.CategoriesArtwork.GetAll(x => x.CategoryId == id).Select(y => y.ArtworkId);
-            //var artworks = _uow.Artworks.GetAll(x => artworksIds.Contains(x.Id), null, new List<string>() { "Artist" }, pagingOptions: options);
-            var artworks = _uow.Artworks.GetAll(null, null, new List<string>() { "Artist" }, pagingOptions: options);
+            var artworks = _uow.Artworks.GetAll(x => x.CategoryId == category.Id, null, new List<string>() { "Artist", "Category", "TechniquesArtwork" }, pagingOptions: options);
             var artworksDto = _mapper.Map<List<Artwork>>(artworks);
-            /*foreach(var artworkDto in artworksDto)
-            {
-                artworkDto.Categories.Add(category);
-            }*/
            
             return Ok(artworksDto);
         }
