@@ -13,6 +13,7 @@ namespace ArsNova.Model.Artist
         public string Name { get; set; }
         [Required]
         [StringLength(maximumLength: 1000, ErrorMessage = "Description is too long!")]
+        public string ImgSrc { get; set; }
         public string Description { get; set; }
         [Required]
         public Location Location { get; set; }
